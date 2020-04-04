@@ -56,7 +56,8 @@ const loginController = {
                 };
 
                 /*
-                    check if the password entered by the user
+                    use compare() method of module `bcrypt`
+                    to check if the password entered by the user
                     is equal to the hashed password in the database
                 */
                 bcrypt.compare(pw, result.pw, function(err, equal) {
