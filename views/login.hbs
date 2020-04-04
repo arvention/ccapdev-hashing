@@ -15,18 +15,13 @@
 
 <div id="container">
     <div id="content">
-        <h1 id="title"> Sign Up. </h1>
-        <form id="signup" method="post">
-            <input type="text" name="fName" id="fName" class="field" placeholder="First Name" required> <br>
-            <p id="fNameError" class="error">{{fNameError}}</p>
-            <input type="text" name="lName" id="lName" class="field" placeholder="Last Name" required> <br>
-            <p id="lNameError" class="error">{{lNameError}}</p>
+        <h1 id="title"> Log In. </h1>
+        <form id="login" method="post">
             <input type="number" name="idNum" id="idNum" class="field" placeholder="Id Number" required> <br>
-            <p id="idNumError" class="error">{{idNumError}}</p>
             <input type="password" name="pw" id="pw" class="field" placeholder="Password" required> <br>
-            <p id="pwError" class="error">{{pwError}}</p>
-            <input type="submit" id="submit" value="SUBMIT" disabled>
+            <input type="submit" id="submit" value="SUBMIT">
         </form>
+        <p id="error" class="error">{{error}}</p>
     </div>
 </div>
 
