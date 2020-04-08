@@ -141,3 +141,60 @@ In `postSignUp()` function, we check if there are any errors produced from the v
 
 The picture below shows a filled up log-in form:
 ![alt text](login.png "Login Page")
+
+Try logging-in with a different ID number or password. Upon submitting the form, you will be redirected to the log-in page with an error.
+
+Now, let's discuss how do we check the `plaintext` password to the hashed password.
+
+Review the file [`views/login.hbs`](views/login.hbs), focus on the `<form>` element, and take note of its elements and their attributes. Shown below is the `<form>` as excerpted from the file:
+```
+<form id="login" method="post">
+    <input type="number" name="idNum" id="idNum" class="field" placeholder="Id Number" required> <br>
+    <input type="password" name="pw" id="pw" class="field" placeholder="Password" required> <br>
+    <input type="submit" id="submit" value="SUBMIT">
+</form>
+```
+Upon the submission of the log-in form, the client will send an HTTP POST request to the path `\login`. The code below defines the callback function for the path `\login`, as defined in [`routes/routes.js`](routes/routes.js).
+
+```
+app.post('/login', loginController.postLogIn);
+```
+
+The function `postLogIn()` is the callback function executed if the client sends an HTTP POST request for the path `\login`. Shown below is the code as excerpted from [`controllers/loginController.js`](controllers/loginController.js):
+
+```
+postLogIn: function (req, res) {
+
+    var idNum = req.body.idNum;
+    var pw = req.body.pw;
+
+    db.findOne(User, {idNum: idNum}, '', function (result) {
+        if(result) {
+            var user = {
+                fName: result.fName,
+                lName: result.lName,
+                idNum: result.idNum
+            };
+
+            bcrypt.compare(pw, result.pw, function(err, equal) {
+                if(equal)
+                    res.redirect('/profile/' + user.idNum);
+
+                else {
+                    var details = {error: `ID Number and/or Password is incorrect.`}
+                    res.render('login', details);
+                }
+            });
+        }
+
+        else {
+            var details = {error: `ID Number and/or Password is incorrect.`}
+            res.render('login', details);
+        }
+    });
+}
+```
+
+In `postLogIn()` function, we used the `compare()` function of [bcrypt](https://www.npmjs.com/package/bcrypt) to compare the `plaintext` password and the hashed password. The result of the comparison is stored in the boolean variable `equal`. If `equal` is true, the client will be redirected to his profile. Otherwise, the user will be redirected back to the log-in page with displayed error.
+
+9. Read the rest of the documentation in the `README.md` files in each folder and in the in-line comments in each file :sunglasses:
