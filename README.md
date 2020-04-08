@@ -67,6 +67,34 @@ Hashing passwords in web applications is not only a good practice, but it is MAN
 
 Now, how do we hash the password before actually saving it in the database?
 
+Review the file [`views/signup.hbs`](views/signup.hbs), focus on the `<form>` element, and take note of its elements and their attributes. Shown below is the `<form>` as excerpted from the file:
+
+```
+<form id="signup" method="post">
+    <input type="text" name="fName" id="fName" class="field" placeholder="First Name" required> <br>
+    <p id="fNameError" class="error">{{fNameError}}</p>
+
+    <input type="text" name="lName" id="lName" class="field" placeholder="Last Name" required> <br>
+    <p id="lNameError" class="error">{{lNameError}}</p>
+
+    <input type="number" name="idNum" id="idNum" class="field" placeholder="Id Number" required> <br>
+    <p id="idNumError" class="error">{{idNumError}}</p>
+
+    <input type="password" name="pw" id="pw" class="field" placeholder="Password" required> <br>
+    <p id="pwError" class="error">{{pwError}}</p>
+
+    <input type="submit" id="submit" value="SUBMIT" disabled>
+ </form>
+```
+
+Upon the submission of the sign-up form, the client will send an HTTP POST request to the path `\signup`. The code below defines the middlewares called by the server for server-side validation and the callback function for the path `\signup`, as defined in [`routes/routes.js`](routes/routes.js).
+
+```
+app.post('/signup', validation.signupValidation(), signupController.postSignUp);
+```
+
+The second argument is a list of middleware functions for server-side validation. For a more detailed explanation, check the [previous repository tutorial on client-side and server-side validation](https://github.com/arvention/ccapdev-validation). The third argument, function `postSignUp()`, is the callback function executed after the server-side middleware validation functions. Shown below is the code as excerpted from [`controllers/signupController.js`](controllers/signupController.js):
+
 ```
 postSignUp: function (req, res) {
 
