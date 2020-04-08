@@ -60,3 +60,49 @@ Based on our [`models\db.js`](models\db.js) code, this statement is printed when
 - `lName` - the last name entered by the user
 - `idNum` - the ID number entered by the user
 - `pw` - the HASHED version of the password entered by the user
+
+Notice that the values inserted to the database for the fields `fName`, `lName`, and `idNum` are equal to the `plaintext` values that we have indicated in the sign-up sheet. However, the value for the field `pw` is not equal to the value that we have provided in the sign-up sheet, i.e. `secretpw`. The value that we have stored in the database for the field `pw` is the HASHED version of the value that we have entered in the sign-up sheet. Do note that the value of the field `pw` in my example might be different from the value generated in your instance, but both values are still equal to the `plaintext` password `secretpw`. If you want to read more about this, here is a [link](https://codahale.com/how-to-safely-store-a-password/).
+
+Hashing passwords in web applications is not only a good practice, but it is MANDATORY. This secures the credentials of the user from being exposed to developers and database administrators of the web application.
+
+Now, how do we hash the password before actually saving it in the database?
+
+```
+postSignUp: function (req, res) {
+
+    var errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+        errors = errors.errors;
+
+        var details = {};
+        for(i = 0; i < errors.length; i++)
+            details[errors[i].param + 'Error'] = errors[i].msg;
+        res.render('signup', details);
+    }
+
+    else {
+        var fName = req.body.fName;
+        var lName = req.body.lName;
+        var idNum = req.body.idNum;
+        var pw = req.body.pw;
+
+        bcrypt.hash(pw, saltRounds, function(err, hash) {
+
+            var user = {
+                fName: fName,
+                lName: lName,
+                idNum: idNum,
+                pw: hash
+            }
+
+            db.insertOne(User, user, function(flag) {
+                if(flag) {
+                    res.redirect('/success?fName=' + fName +'&lName=' + lName + '&idNum=' + idNum);
+                }
+            });
+        });
+    }
+}
+```
