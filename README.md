@@ -134,3 +134,10 @@ postSignUp: function (req, res) {
     }
 }
 ```
+
+In `postSignUp()` function, we check if there are any errors produced from the validation middleware functions. If there are no errors, we used the `hash()` function of [bcrypt](https://www.npmjs.com/package/bcrypt) to produce our hashed password. The hashed password will be stored in the string variable `hash` in the callback function. We then store the value of the string variable `hash` to the database as password. Afterwards, the user is redirected to the success page.
+
+8. Now, let's check if we can log-in to this account even if we type the `plaintext` password `secretpw`. Go to the log-in page using the menu item. Type the login credentials of the user, then submit the form. This should redirect you to the profile page of the user.
+
+The picture below shows a filled up log-in form:
+![alt text](login.png "Login Page")
