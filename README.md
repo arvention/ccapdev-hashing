@@ -1,7 +1,7 @@
 # ccapdev-hashing
 bcrypt Tutorial for CCAPDEV1920T2
 
-This repository will help you integrate hashing to your web applications using [bcrypt](https://www.npmjs.com/package/bcrypt). This web application is based on the previous [repository on client-side and server-side validation tutorial](https://github.com/arvention/ccapdev-validation). For this tutorial, we will use bcrypt to hash the password of the user before saving in the database.
+This repository will help you integrate hashing to your web applications using [bcrypt](https://www.npmjs.com/package/bcrypt). This web application is based on the previous [repository on client-side and server-side validation tutorial](https://github.com/arvention/ccapdev-validation). For this tutorial, we will use [bcrypt](https://www.npmjs.com/package/bcrypt) to hash the password of the user before saving in the database.
 
 ## Contents:
 
